@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -33,10 +32,10 @@ interface ApiResponse {
 export default function BibliotecaForm() {
   const [formData, setFormData] = useState({
     nomeCompleto: "",
-    idade: "",
     email: "",
     telefone: "",
     generosFavoritos: [] as string[],
+    outrosGeneros: "",
     formatoPreferido: "",
     idiomaPreferido: "",
     frequenciaLeitura: "",
@@ -49,7 +48,27 @@ export default function BibliotecaForm() {
   const [recommendations, setRecommendations] = useState<ApiResponse | null>(null)
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null)
 
-  const generos = ["Ficção", "Romance", "Mistério", "Fantasia", "Biografia", "Autobiografia", "História", "Ciência"]
+  const generos = [
+    "Ficção",
+    "Romance",
+    "Mistério",
+    "Fantasia",
+    "Biografia",
+    "Autobiografia",
+    "História",
+    "Ciência",
+    "Tecnologia",
+  ]
+
+  // Fazer a mensagem de sucesso desaparecer após 3 segundos
+  useEffect(() => {
+    if (submitStatus === "success") {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [submitStatus])
 
   const handleGenreChange = (genre: string, checked: boolean) => {
     setFormData((prev) => ({
@@ -89,15 +108,15 @@ export default function BibliotecaForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 p-4">
+    <div className="min-h-screen p-4" style={{ backgroundColor: "#F2EBE2" }}>
       <div className="max-w-2xl mx-auto">
-        <Card className="bg-gradient-to-r from-amber-200 to-orange-200 border-0 shadow-lg">
+        <Card className="border-0 shadow-lg" style={{ background: "linear-gradient(to right, #AF897A, #C4A484)" }}>
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <BookOpen className="h-6 w-6 text-amber-800" />
-              <CardTitle className="text-2xl font-bold text-amber-900">Biblioteca Virtual</CardTitle>
+              <BookOpen className="h-6 w-6 text-white" />
+              <CardTitle className="text-2xl font-bold text-white">Biblioteca Virtual</CardTitle>
             </div>
-            <CardDescription className="text-amber-800 text-base">
+            <CardDescription className="text-white text-base">
               Conte-nos sobre suas preferências para recomendarmos os melhores livros!
             </CardDescription>
           </CardHeader>
@@ -109,7 +128,7 @@ export default function BibliotecaForm() {
               {/* Dados Pessoais */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <User className="h-5 w-5 text-amber-700" />
+                  <User className="h-5 w-5" style={{ color: "#AF897A" }} />
                   <h3 className="text-lg font-semibold text-gray-800">Dados Pessoais</h3>
                 </div>
 
@@ -122,26 +141,17 @@ export default function BibliotecaForm() {
                       id="nomeCompleto"
                       value={formData.nomeCompleto}
                       onChange={(e) => setFormData((prev) => ({ ...prev, nomeCompleto: e.target.value }))}
-                      className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500"
+                      className="mt-1 border-gray-300"
+                      style={
+                        {
+                          "--tw-ring-color": "#AF897A",
+                          borderColor: "#AF897A",
+                        } as React.CSSProperties
+                      }
                       required
                     />
                   </div>
 
-                  <div>
-                    <Label htmlFor="idade" className="text-gray-700 font-medium">
-                      Idade
-                    </Label>
-                    <Input
-                      id="idade"
-                      type="number"
-                      value={formData.idade}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, idade: e.target.value }))}
-                      className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="email" className="text-gray-700 font-medium">
                       E-mail *
@@ -151,43 +161,60 @@ export default function BibliotecaForm() {
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                      className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500"
+                      className="mt-1 border-gray-300"
+                      style={
+                        {
+                          "--tw-ring-color": "#AF897A",
+                          borderColor: "#AF897A",
+                        } as React.CSSProperties
+                      }
                       required
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <Label htmlFor="telefone" className="text-gray-700 font-medium">
-                      Telefone
-                    </Label>
-                    <Input
-                      id="telefone"
-                      value={formData.telefone}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, telefone: e.target.value }))}
-                      placeholder="(11) 99999-9999"
-                      className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="telefone" className="text-gray-700 font-medium">
+                    Telefone
+                  </Label>
+                  <Input
+                    id="telefone"
+                    value={formData.telefone}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, telefone: e.target.value }))}
+                    placeholder="(11) 99999-9999"
+                    className="mt-1 border-gray-300"
+                    style={
+                      {
+                        "--tw-ring-color": "#AF897A",
+                        borderColor: "#AF897A",
+                      } as React.CSSProperties
+                    }
+                  />
                 </div>
               </div>
 
               {/* Preferências de Leitura */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <Heart className="h-5 w-5 text-amber-700" />
+                  <Heart className="h-5 w-5" style={{ color: "#AF897A" }} />
                   <h3 className="text-lg font-semibold text-gray-800">Preferências de Leitura</h3>
                 </div>
 
                 <div>
                   <Label className="text-gray-700 font-medium mb-3 block">Gêneros Favoritos:</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {generos.map((genero) => (
                       <div key={genero} className="flex items-center space-x-2">
                         <Checkbox
                           id={genero}
                           checked={formData.generosFavoritos.includes(genero)}
                           onCheckedChange={(checked) => handleGenreChange(genero, checked as boolean)}
-                          className="border-gray-300 data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
+                          className="border-gray-300"
+                          style={
+                            {
+                              "--tw-ring-color": "#AF897A",
+                            } as React.CSSProperties
+                          }
                         />
                         <Label htmlFor={genero} className="text-sm text-gray-700">
                           {genero}
@@ -197,6 +224,25 @@ export default function BibliotecaForm() {
                   </div>
                 </div>
 
+                <div>
+                  <Label htmlFor="outrosGeneros" className="text-gray-700 font-medium">
+                    Outros Gêneros
+                  </Label>
+                  <Input
+                    id="outrosGeneros"
+                    value={formData.outrosGeneros}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, outrosGeneros: e.target.value }))}
+                    placeholder="Digite outros gêneros de seu interesse..."
+                    className="mt-1 border-gray-300"
+                    style={
+                      {
+                        "--tw-ring-color": "#AF897A",
+                        borderColor: "#AF897A",
+                      } as React.CSSProperties
+                    }
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label className="text-gray-700 font-medium">Formato Preferido</Label>
@@ -204,7 +250,7 @@ export default function BibliotecaForm() {
                       value={formData.formatoPreferido}
                       onValueChange={(value) => setFormData((prev) => ({ ...prev, formatoPreferido: value }))}
                     >
-                      <SelectTrigger className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500">
+                      <SelectTrigger className="mt-1 border-gray-300">
                         <SelectValue placeholder="Selecione..." />
                       </SelectTrigger>
                       <SelectContent>
@@ -222,7 +268,7 @@ export default function BibliotecaForm() {
                       value={formData.idiomaPreferido}
                       onValueChange={(value) => setFormData((prev) => ({ ...prev, idiomaPreferido: value }))}
                     >
-                      <SelectTrigger className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500">
+                      <SelectTrigger className="mt-1 border-gray-300">
                         <SelectValue placeholder="Português" />
                       </SelectTrigger>
                       <SelectContent>
@@ -237,7 +283,7 @@ export default function BibliotecaForm() {
 
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Clock className="h-4 w-4 text-amber-700" />
+                    <Clock className="h-4 w-4" style={{ color: "#AF897A" }} />
                     <Label className="text-gray-700 font-medium">Frequência de Leitura:</Label>
                   </div>
                   <RadioGroup
@@ -246,33 +292,25 @@ export default function BibliotecaForm() {
                     className="grid grid-cols-2 md:grid-cols-4 gap-4"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="diariamente" id="diariamente" className="border-gray-300 text-amber-600" />
+                      <RadioGroupItem value="diariamente" id="diariamente" className="border-gray-300" />
                       <Label htmlFor="diariamente" className="text-sm text-gray-700">
                         Diariamente
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="semanalmente"
-                        id="semanalmente"
-                        className="border-gray-300 text-amber-600"
-                      />
+                      <RadioGroupItem value="semanalmente" id="semanalmente" className="border-gray-300" />
                       <Label htmlFor="semanalmente" className="text-sm text-gray-700">
                         Semanalmente
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="mensalmente" id="mensalmente" className="border-gray-300 text-amber-600" />
+                      <RadioGroupItem value="mensalmente" id="mensalmente" className="border-gray-300" />
                       <Label htmlFor="mensalmente" className="text-sm text-gray-700">
                         Mensalmente
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem
-                        value="eventualmente"
-                        id="eventualmente"
-                        className="border-gray-300 text-amber-600"
-                      />
+                      <RadioGroupItem value="eventualmente" id="eventualmente" className="border-gray-300" />
                       <Label htmlFor="eventualmente" className="text-sm text-gray-700">
                         Eventualmente
                       </Label>
@@ -284,7 +322,7 @@ export default function BibliotecaForm() {
               {/* Informações Adicionais */}
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <MessageSquare className="h-5 w-5 text-amber-700" />
+                  <MessageSquare className="h-5 w-5" style={{ color: "#AF897A" }} />
                   <h3 className="text-lg font-semibold text-gray-800">Informações Adicionais</h3>
                 </div>
 
@@ -297,7 +335,13 @@ export default function BibliotecaForm() {
                     value={formData.autoresFavoritos}
                     onChange={(e) => setFormData((prev) => ({ ...prev, autoresFavoritos: e.target.value }))}
                     placeholder="Ex: Machado de Assis, Agatha Christie..."
-                    className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500"
+                    className="mt-1 border-gray-300"
+                    style={
+                      {
+                        "--tw-ring-color": "#AF897A",
+                        borderColor: "#AF897A",
+                      } as React.CSSProperties
+                    }
                   />
                 </div>
 
@@ -310,7 +354,13 @@ export default function BibliotecaForm() {
                     value={formData.observacoes}
                     onChange={(e) => setFormData((prev) => ({ ...prev, observacoes: e.target.value }))}
                     placeholder="Conte-nos mais sobre suas preferências de leitura..."
-                    className="mt-1 border-gray-300 focus:border-amber-500 focus:ring-amber-500 min-h-[100px]"
+                    className="mt-1 border-gray-300 min-h-[100px]"
+                    style={
+                      {
+                        "--tw-ring-color": "#AF897A",
+                        borderColor: "#AF897A",
+                      } as React.CSSProperties
+                    }
                   />
                 </div>
               </div>
@@ -318,7 +368,11 @@ export default function BibliotecaForm() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold py-3 text-lg shadow-lg"
+                className="w-full text-white font-semibold py-3 text-lg shadow-lg"
+                style={{
+                  backgroundColor: "#AF897A",
+                  borderColor: "#AF897A",
+                }}
               >
                 {isSubmitting ? "Enviando..." : "Confirmar Dados e Receber Recomendações"}
               </Button>
@@ -343,7 +397,7 @@ export default function BibliotecaForm() {
         <Dialog open={showRecommendations} onOpenChange={setShowRecommendations}>
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-amber-800 flex items-center gap-2">
+              <DialogTitle className="text-2xl font-bold flex items-center gap-2" style={{ color: "#AF897A" }}>
                 <BookOpen className="h-6 w-6" />
                 Recomendações para {recommendations?.output.nomeUsuario}
               </DialogTitle>
@@ -353,7 +407,7 @@ export default function BibliotecaForm() {
               <div className="space-y-6">
                 <div className="grid gap-4">
                   {recommendations.output.recomendacoes.map((book, index) => (
-                    <Card key={index} className="border-l-4 border-l-amber-500">
+                    <Card key={index} className="border-l-4" style={{ borderLeftColor: "#AF897A" }}>
                       <CardContent className="p-6">
                         <div className="space-y-3">
                           <div>
@@ -361,7 +415,10 @@ export default function BibliotecaForm() {
                             <p className="text-gray-600">
                               por <span className="font-semibold">{book.autor}</span>
                             </p>
-                            <span className="inline-block bg-amber-100 text-amber-800 text-sm px-3 py-1 rounded-full mt-2">
+                            <span
+                              className="inline-block text-white text-sm px-3 py-1 rounded-full mt-2"
+                              style={{ backgroundColor: "#AF897A" }}
+                            >
                               {book.genero}
                             </span>
                           </div>
@@ -383,8 +440,16 @@ export default function BibliotecaForm() {
                   ))}
                 </div>
 
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-center">
-                  <p className="text-amber-800 font-medium">{recommendations.output.mensagemFinal}</p>
+                <div
+                  className="border rounded-lg p-4 text-center"
+                  style={{
+                    backgroundColor: "#F2EBE2",
+                    borderColor: "#AF897A",
+                  }}
+                >
+                  <p className="font-medium" style={{ color: "#AF897A" }}>
+                    {recommendations.output.mensagemFinal}
+                  </p>
                 </div>
               </div>
             )}
