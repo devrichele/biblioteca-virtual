@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
-}
+  title: "Biblioteca Virtual",
+  description: "Cadastro de livros com Next.js e automação via n8n",
+  generator: "v0.dev",
+};
 
 export default function RootLayout({
   children,
