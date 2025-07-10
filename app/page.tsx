@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import BibliotecaForm from "../biblioteca-form"
+import BibliotecaForm from "../biblioteca-form";
 
 export default function Page() {
-  return <BibliotecaForm />
+  return <BibliotecaForm />;
 }
