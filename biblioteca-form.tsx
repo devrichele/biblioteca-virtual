@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { motion } from "framer-motion";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
@@ -148,26 +149,32 @@ export default function BibliotecaForm() {
       }}
     >
       <div className="max-w-2xl mx-auto">
-        <Card
-          className="border-0 shadow-lg"
-          style={{
-            background:
-              "linear-gradient(90deg,rgba(71, 55, 18, 1) 31%, rgba(201, 151, 75, 1) 100%, rgba(186, 176, 87, 1) 63%)",
-          }}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          <CardHeader className="text-center pb-6">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <LibraryBigIcon className="h-6 w-6 text-white" />
-              <CardTitle className="text-2xl font-bold text-white">
-                Biblioteca Virtual
-              </CardTitle>
-            </div>
-            <CardDescription className="text-white text-base">
-              Conte-nos sobre suas preferências para recomendarmos os melhores
-              livros!
-            </CardDescription>
-          </CardHeader>
-        </Card>
+          <Card
+            className="border-0 shadow-lg"
+            style={{
+              background:
+                "linear-gradient(90deg,rgba(71, 55, 18, 1) 31%, rgba(201, 151, 75, 1) 100%, rgba(186, 176, 87, 1) 63%)",
+            }}
+          >
+            <CardHeader className="text-center pb-6">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <LibraryBigIcon className="h-6 w-6 text-white" />
+                <CardTitle className="text-2xl font-bold text-white">
+                  Biblioteca Virtual
+                </CardTitle>
+              </div>
+              <CardDescription className="text-white text-base">
+                Conte-nos sobre suas preferências para recomendarmos os melhores
+                livros!
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </motion.div>
 
         <Card className="mt-6 bg-white/90 backdrop-blur-sm shadow-xl border-0">
           <CardContent className="p-8">
