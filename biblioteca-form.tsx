@@ -28,7 +28,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BookOpen, User, Heart, Clock, MessageSquare } from "lucide-react";
+import {
+  User,
+  Heart,
+  Clock,
+  MessageSquare,
+  LibraryBigIcon,
+} from "lucide-react";
 
 interface BookRecommendation {
   titulo: string;
@@ -83,8 +89,6 @@ export default function BibliotecaForm() {
 
   // Fazer a mensagem de sucesso desaparecer após 3 segundos
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     if (submitStatus === "success") {
       const timer = setTimeout(() => {
         setSubmitStatus(null);
@@ -136,15 +140,24 @@ export default function BibliotecaForm() {
   };
 
   return (
-    <div className="min-h-screen p-4" style={{ backgroundColor: "#F2EBE2" }}>
+    <div
+      className="min-h-screen p-4"
+      style={{
+        backgroundImage:
+          "url('https://img.freepik.com/vetores-premium/padrao-sem-emenda-de-vetor-de-livros-de-desenho-em-fundo-marrom_574806-380.jpg')",
+      }}
+    >
       <div className="max-w-2xl mx-auto">
         <Card
           className="border-0 shadow-lg"
-          style={{ background: "linear-gradient(to right, #AF897A, #C4A484)" }}
+          style={{
+            background:
+              "linear-gradient(90deg,rgba(71, 55, 18, 1) 31%, rgba(201, 151, 75, 1) 100%, rgba(186, 176, 87, 1) 63%)",
+          }}
         >
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <BookOpen className="h-6 w-6 text-white" />
+              <LibraryBigIcon className="h-6 w-6 text-white" />
               <CardTitle className="text-2xl font-bold text-white">
                 Biblioteca Virtual
               </CardTitle>
@@ -519,10 +532,10 @@ export default function BibliotecaForm() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full text-white font-semibold py-3 text-lg shadow-lg"
+                className="w-full text-white font-semibold px-4 py-4 text-sm sm:text-base md:text-lg shadow-lg border-0 break-words whitespace-normal text-center"
                 style={{
-                  backgroundColor: "#AF897A",
-                  borderColor: "#AF897A",
+                  background:
+                    "linear-gradient(90deg, rgba(71, 55, 18, 1) 31%, rgba(201, 151, 75, 1) 100%, rgba(186, 176, 87, 1) 63%)",
                 }}
               >
                 {isSubmitting
@@ -561,7 +574,7 @@ export default function BibliotecaForm() {
                 className="text-2xl font-bold flex items-center gap-2"
                 style={{ color: "#AF897A" }}
               >
-                <BookOpen className="h-6 w-6" />
+                <LibraryBigIcon className="h-6 w-6" />
                 Recomendações para {recommendations?.output.nomeUsuario}
               </DialogTitle>
             </DialogHeader>
