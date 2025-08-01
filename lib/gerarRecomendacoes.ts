@@ -55,7 +55,8 @@ Responda no seguinte formato JSON:
   const text = await result.response.text();
 
   try {
-    const jsonMatch = text.trim().match(/\{[\s\S]*?\}$/);
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+
     if (!jsonMatch) throw new Error("JSON não encontrado na resposta.");
     return JSON.parse(jsonMatch[0]);
   } catch (e) {
