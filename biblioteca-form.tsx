@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { motion } from "framer-motion";
 import { gerarRecomendacoes } from "./lib/gerarRecomendacoes";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -136,11 +135,6 @@ export default function BibliotecaForm() {
       }}
     >
       <div className="max-w-2xl mx-auto">
-        {/* <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        > */}
         <Card
           className="border-0 shadow-lg"
           style={{
@@ -167,7 +161,6 @@ export default function BibliotecaForm() {
             </CardDescription>
           </CardHeader>
         </Card>
-        {/* </motion.div> */}
 
         <Card className="mt-6 bg-white/90 backdrop-blur-sm shadow-xl border-0">
           <CardContent className="p-8">
