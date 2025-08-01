@@ -4,7 +4,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Biblioteca Virtual",
   description: "Cadastro de livros com Next.js e automação via n8n",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({
@@ -13,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body>{children}</body>
     </html>
   );

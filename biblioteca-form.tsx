@@ -14,7 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
+import { gerarRecomendacoes } from "./lib/gerarRecomendacoes";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import {
   Select,
   SelectContent,
@@ -113,27 +115,12 @@ export default function BibliotecaForm() {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch(
-        "https://n8n.flory.dev/webhook/8a7c32ac-049d-4ba3-8321-a8f30bb45060",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setRecommendations(data[0]);
-        setSubmitStatus("success");
-        setShowRecommendations(true);
-      } else {
-        setSubmitStatus("error");
-      }
+      const data = await gerarRecomendacoes(formData);
+      setRecommendations(data);
+      setSubmitStatus("success");
+      setShowRecommendations(true);
     } catch (error) {
-      console.error("Erro ao enviar dados:", error);
+      console.error("Erro ao gerar recomendações:", error);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -149,32 +136,38 @@ export default function BibliotecaForm() {
       }}
     >
       <div className="max-w-2xl mx-auto">
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+        > */}
+        <Card
+          className="border-0 shadow-lg"
+          style={{
+            background:
+              "linear-gradient(90deg,rgba(71, 55, 18, 1) 31%, rgba(201, 151, 75, 1) 100%, rgba(186, 176, 87, 1) 63%)",
+          }}
         >
-          <Card
-            className="border-0 shadow-lg"
-            style={{
-              background:
-                "linear-gradient(90deg,rgba(71, 55, 18, 1) 31%, rgba(201, 151, 75, 1) 100%, rgba(186, 176, 87, 1) 63%)",
-            }}
-          >
-            <CardHeader className="text-center pb-6">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <LibraryBigIcon className="h-6 w-6 text-white" />
-                <CardTitle className="text-2xl font-bold text-white">
-                  Biblioteca Virtual
-                </CardTitle>
-              </div>
-              <CardDescription className="text-white text-base">
-                Conte-nos sobre suas preferências para recomendarmos os melhores
-                livros!
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </motion.div>
+          <CardHeader className="text-center pb-6">
+            <div
+              className="flex items-center justify-center
+             gap-2 mb-2"
+            >
+              <CardTitle className="text-2xl font-bold text-white animate-fade animate-once animate-duration-[400ms] animate-delay-0 animate-ease-in-out animate-alternate">
+                <img
+                  src="/logo.png"
+                  alt="Logo"
+                  className="h-[110px] max-h-[100px] w-auto max-w-[160px] object-contain rounded-full bg-[#472f12] p-1"
+                />
+              </CardTitle>
+            </div>
+            <CardDescription className="text-white text-base animate-jump animate-twice animate-duration-[400ms]">
+              Conte-nos sobre suas preferências para recomendarmos os melhores
+              livros!
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        {/* </motion.div> */}
 
         <Card className="mt-6 bg-white/90 backdrop-blur-sm shadow-xl border-0">
           <CardContent className="p-8">
