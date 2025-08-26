@@ -1,6 +1,8 @@
 // lib/gerarRecomendacoes.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+import { supabase } from "./supabaseClient";
+
+const apiKey = process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY;
 
 if (!apiKey) {
   throw new Error("API Key do Gemini não encontrada. Verifique o .env.local");

@@ -38,6 +38,7 @@ import {
   MessageSquare,
   LibraryBigIcon,
 } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
 interface BookRecommendation {
   titulo: string;
@@ -115,8 +116,27 @@ export default function BibliotecaForm() {
     setSubmitStatus(null);
 
     try {
-      const data = await gerarRecomendacoes(formData);
-      setRecommendations(data);
+      const supabaseData = {
+        nome_completo: formData.nomeCompleto,
+        email: formData.email,
+        telefone: formData.telefone,
+        generos_favoritos: formData.generosFavoritos,
+        outros_generos: formData.outrosGeneros,
+        formato_preferido: formData.formatoPreferido,
+        idioma_preferido: formData.idiomaPreferido,
+        frequencia_leitura: formData.frequenciaLeitura,
+        autores_favoritos: formData.autoresFavoritos,
+        observacoes: formData.observacoes,
+      };
+
+      const { error } = await supabase
+        .from("biblioteca")
+        .insert([supabaseData]);
+
+      if (error) throw error;
+
+      const recomemendationsData = await gerarRecomendacoes(formData);
+      setRecommendations(recomemendationsData);
       setSubmitStatus("success");
       setShowRecommendations(true);
     } catch (error) {
